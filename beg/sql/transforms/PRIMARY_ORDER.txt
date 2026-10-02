@@ -1,0 +1,33 @@
+# Execution order of the SQL transforms. One filename per line; lines starting with '#' or '--'
+# are comments. Every transform a configuration references must be listed, after everything it
+# reads from.
+
+# utilities
+buildingsurface_features.sql
+surface_shading_metrics.sql
+construction_material_totals.sql
+building.sql
+building_weather.sql
+
+# nodes
+comp_element.sql
+comp_zone.sql
+comp_aperture.sql
+comp_base_element.sql
+zones_zone.sql
+
+# edges
+edge_comp_zone_building.sql
+edge_comp_zone_building_weather.sql
+edge_comp_element_zone.sql
+edge_comp_aperture_element.sql
+edge_comp_element_adjacency.sql
+edge_comp_env_weather.sql
+edge_comp_aperture_env_weather.sql
+edge_comp_base_unified.sql
+edge_zones_building.sql
+edge_zones.sql
+edge_zones_homo.sql
+edge_zones_model_weather.sql
+edge_zones_model_weather_all.sql
+edge_zones_env_weather.sql

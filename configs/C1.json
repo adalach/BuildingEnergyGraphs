@@ -1,0 +1,34 @@
+{
+  "prefix": "zone_homo_no_weather",
+  "id": "C1",
+  "weather": "not included",
+  "type": "homogeneous",
+  "description": "Homogeneous zone-level graph with zone adjacency edges derived from adjacent surfaces, no edge features and no weather information",
+  "sql_transforms": [
+    "buildingsurface_features.sql",
+    "surface_shading_metrics.sql",
+    "construction_material_totals.sql",
+    "comp_element.sql",
+    "comp_zone.sql",
+    "comp_aperture.sql",
+    "zones_zone.sql",
+    "edge_zones.sql",
+    "edge_zones_homo.sql"
+  ],
+  "nodes": [
+    {
+      "table": "zones_zone"
+    }
+  ],
+  "edges": [
+    {
+      "edge_src": "edge_zones_homo",
+      "src_cat": "zones_zone",
+      "src_col": "zone_1_name",
+      "tgt_cat": "zones_zone",
+      "tgt_col": "zone_2_name",
+      "rel": "adjacent_zone",
+      "bidirectional": true
+    }
+  ]
+}

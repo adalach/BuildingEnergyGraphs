@@ -1,0 +1,44 @@
+# --- environment -------------------------------------------------------------
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+# Anchored: an unanchored build/ would also match beg/build/.
+/build/
+/dist/
+
+# --- editors / OS ------------------------------------------------------------
+.idea/
+.vscode/
+.DS_Store
+
+# --- scratch -----------------------------------------------------------------
+tmp/
+temp/
+
+# --- data and generated artefacts (see docs/data.md) --------------------------
+# data/* rather than data/, so that the two files re-included below can ship.
+data/*
+outputs/
+
+*.pt
+*.pkl
+*.parquet
+*.epjson
+*.epJSON
+*.hbjson
+*.idf
+*.epw
+*.ddy
+*.sql.gz
+*.dump
+
+# --- re-included (after the extension rules: the last matching pattern wins) ---
+!paper_assets/**/*.csv
+!data/labels.csv
+!data/Energy+.schema.epJSON

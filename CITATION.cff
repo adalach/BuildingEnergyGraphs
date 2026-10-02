@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper below."
+title: "BuildingEnergyGraphs"
+abstract: >-
+  Reproducible pipeline for constructing and comparing building energy graph
+  representations (zone/component granularity, heterogeneous/homogeneous
+  structure, three weather-attachment variants) and for training graph neural
+  networks on them for building energy prediction.
+type: software
+authors:
+  - given-names: Agata
+    family-names: Dalach
+    email: agata.dalach@tum.de
+    affiliation: "Technical University of Munich, Chair of Computational Modeling and Simulation"
+version: "0.1.0"
+license: MIT
+repository-code: "https://github.com/adalach/BuildingEnergyGraphs"
+keywords:
+  - building energy modeling
+  - graph neural networks
+  - EnergyPlus
+  - benchmark
+references:
+  - type: article
+    title: "Building Energy Graphs: How Graph Representation Design Impacts GNN-Based Building Energy Prediction"
+    authors:
+      - given-names: Agata
+        family-names: Dalach
+      - given-names: Xia
+        family-names: Chen
+      - given-names: Philipp
+        family-names: Geyer
+    notes: "Manuscript under review. Update with the DOI on acceptance."
+  - type: dataset
+    title: "BEM4AI dataset"
+    doi: "10.14459/2026mp1856158"
+    license: CC-BY-4.0
+    authors:
+      - given-names: Agata
+        family-names: Dalach
+      - given-names: Xia
+        family-names: Chen
+      - given-names: Philipp
+        family-names: Geyer
+    notes: "Source building energy model dataset: 13,260 EnergyPlus models across 713 European cities."

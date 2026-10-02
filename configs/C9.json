@@ -1,0 +1,68 @@
+{
+  "extends": "base/component_hetero.json",
+  "id": "C9",
+  "prefix": "component_hetero_building_weather",
+  "weather": "in model node",
+  "description": "Heterogeneous component-level graph with weather information stored in the building-level node",
+  "sql_transforms": {
+    "remove": [
+      "edge_comp_zone_building.sql"
+    ],
+    "add": [
+      "building_weather.sql",
+      "edge_comp_zone_building_weather.sql"
+    ]
+  },
+  "nodes": [
+    {
+      "table": "building_weather"
+    },
+    {
+      "table": "comp_zone"
+    },
+    {
+      "table": "comp_element"
+    },
+    {
+      "table": "comp_aperture"
+    }
+  ],
+  "edges": [
+    {
+      "edge_src": "edge_comp_zone_building_weather",
+      "src_cat": "comp_zone",
+      "src_col": "zone_instance_name",
+      "tgt_cat": "building_weather",
+      "tgt_col": "building_weather_instance_name",
+      "rel": "belongs_to",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_element_zone",
+      "src_cat": "comp_element",
+      "src_col": "comp_element_name",
+      "tgt_cat": "comp_zone",
+      "tgt_col": "zone_name",
+      "rel": "belongs_to",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_aperture_element",
+      "src_cat": "comp_aperture",
+      "src_col": "aperture_name",
+      "tgt_cat": "comp_element",
+      "tgt_col": "element_name",
+      "rel": "part_of",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_element_adjacency",
+      "src_cat": "comp_element",
+      "src_col": "element_1_name",
+      "tgt_cat": "comp_element",
+      "tgt_col": "element_2_name",
+      "rel": "adjacent_surface",
+      "bidirectional": true
+    }
+  ]
+}

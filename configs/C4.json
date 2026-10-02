@@ -1,0 +1,48 @@
+{
+  "extends": "base/zone_hetero.json",
+  "id": "C4",
+  "prefix": "zone_hetero_building_weather",
+  "weather": "in model node",
+  "description": "Heterogeneous zone-level graph with a building-weather node connected to all zones",
+  "sql_transforms": {
+    "remove": [
+      "edge_zones_building.sql"
+    ],
+    "add": [
+      "building_weather.sql",
+      "edge_zones_model_weather_all.sql"
+    ]
+  },
+  "nodes": [
+    {
+      "table": "building_weather"
+    },
+    {
+      "table": "zones_zone"
+    }
+  ],
+  "edges": {
+    "remove": [
+      {
+        "edge_src": "edge_zones_building",
+        "src_cat": "zones_zone",
+        "src_col": "zone_name",
+        "tgt_cat": "building",
+        "tgt_col": "building_instance_name",
+        "rel": "belongs_to",
+        "bidirectional": true
+      }
+    ],
+    "add": [
+      {
+        "edge_src": "edge_zones_model_weather_all",
+        "src_cat": "building_weather",
+        "src_col": "building_weather_instance_name",
+        "tgt_cat": "zones_zone",
+        "tgt_col": "zone_name",
+        "rel": "weather_for",
+        "bidirectional": true
+      }
+    ]
+  }
+}

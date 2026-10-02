@@ -1,0 +1,7 @@
+{
+  "extends": "base/zone_hetero.json",
+  "id": "C3",
+  "prefix": "zone_hetero_no_weather",
+  "weather": "not included",
+  "description": "Heterogeneous zone-level graph with building and zone nodes, zone adjacency, and building-zone membership edges, without weather information"
+}

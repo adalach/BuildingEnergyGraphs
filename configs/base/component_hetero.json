@@ -1,0 +1,68 @@
+{
+  "type": "heterogeneous",
+  "sql_transforms": [
+    "building.sql",
+    "buildingsurface_features.sql",
+    "surface_shading_metrics.sql",
+    "construction_material_totals.sql",
+    "comp_element.sql",
+    "comp_zone.sql",
+    "comp_aperture.sql",
+    "edge_comp_zone_building.sql",
+    "edge_comp_element_zone.sql",
+    "edge_comp_aperture_element.sql",
+    "edge_comp_element_adjacency.sql"
+  ],
+  "nodes": [
+    {
+      "table": "building"
+    },
+    {
+      "table": "comp_zone"
+    },
+    {
+      "table": "comp_element"
+    },
+    {
+      "table": "comp_aperture"
+    }
+  ],
+  "edges": [
+    {
+      "edge_src": "edge_comp_zone_building",
+      "src_cat": "comp_zone",
+      "src_col": "zone_instance_name",
+      "tgt_cat": "building",
+      "tgt_col": "building_instance_name",
+      "rel": "belongs_to",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_element_zone",
+      "src_cat": "comp_element",
+      "src_col": "comp_element_name",
+      "tgt_cat": "comp_zone",
+      "tgt_col": "zone_name",
+      "rel": "belongs_to",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_aperture_element",
+      "src_cat": "comp_aperture",
+      "src_col": "aperture_name",
+      "tgt_cat": "comp_element",
+      "tgt_col": "element_name",
+      "rel": "part_of",
+      "bidirectional": true
+    },
+    {
+      "edge_src": "edge_comp_element_adjacency",
+      "src_cat": "comp_element",
+      "src_col": "element_1_name",
+      "tgt_cat": "comp_element",
+      "tgt_col": "element_2_name",
+      "rel": "adjacent_surface",
+      "bidirectional": true
+    }
+  ]
+}

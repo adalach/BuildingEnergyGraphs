@@ -1,0 +1,42 @@
+{
+  "extends": "base/component_hetero.json",
+  "id": "C10",
+  "prefix": "component_hetero_external_weather",
+  "weather": "separate node",
+  "description": "Heterogeneous component-level graph with a separate city-level weather node connected only to externally exposed envelope components",
+  "sql_transforms": {
+    "add": [
+      "edge_comp_env_weather.sql",
+      "edge_comp_aperture_env_weather.sql"
+    ]
+  },
+  "nodes": {
+    "add": [
+      {
+        "table": "weather_city"
+      }
+    ]
+  },
+  "edges": {
+    "add": [
+      {
+        "edge_src": "edge_comp_env_weather",
+        "src_cat": "weather_city",
+        "src_col": "city_key",
+        "tgt_cat": "comp_element",
+        "tgt_col": "element_name",
+        "rel": "weather_for",
+        "bidirectional": false
+      },
+      {
+        "edge_src": "edge_comp_aperture_env_weather",
+        "src_cat": "weather_city",
+        "src_col": "city_key",
+        "tgt_cat": "comp_aperture",
+        "tgt_col": "aperture_name",
+        "rel": "weather_for",
+        "bidirectional": false
+      }
+    ]
+  }
+}

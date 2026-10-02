@@ -1,0 +1,13 @@
+{
+  "description": "Provenance of the published training runs. The implementation fingerprint hashes the torch build, the CUDA build and the three source files below; tests/test_published_runs_provenance.py fails if any of them changes, because the runs would then no longer be the output of this code.",
+  "runs": 816,
+  "implementation_fingerprint": "2a28287fcf5d32c04adf6977a2e803135191e2f96286f0e1fcfc79e5d4d75cf4",
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "device": "NVIDIA GeForce RTX 3060",
+  "sources_sha256": {
+    "models/gnn.py": "8387b61e64d936479f8bb4df4a33e3f2ea04bf84b2a9e8dd6715894965c3b2d9",
+    "train/search.py": "37b530f954122f0c702f0023731eedf2cc6effafba3b15ddeb419cd705e6b4ea",
+    "train/runner.py": "0f395481b46a87702aca9df9b0659435f8b446153bd5cf5e429dfcf6c2bea949"
+  }
+}

@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: beg
+          POSTGRES_PASSWORD: ci-password
+          POSTGRES_DB: beg
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U beg -d beg"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+    env:
+      # allow-secret: throwaway credential for the ephemeral CI service container
+      BEG_DSN: postgresql+psycopg2://beg:ci-password@127.0.0.1:5432/beg
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install
+        run: pip install -e ".[dev,notebooks]"
+
+      - name: No credentials or machine paths
+        run: python scripts/check_no_secrets.py --all
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Database initialises from scratch
+        run: |
+          beg db init
+          beg db status
+
+      - name: Tests
+        run: pytest -q -m "not slow and not torch"

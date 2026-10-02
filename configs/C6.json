@@ -1,0 +1,40 @@
+{
+  "prefix": "component_homo_no_weather",
+  "id": "C6",
+  "weather": "not included",
+  "type": "homogeneous",
+  "description": "Homogeneous component-level graph with a single unified component node type and no weather information",
+  "sql_transforms": [
+    "buildingsurface_features.sql",
+    "surface_shading_metrics.sql",
+    "construction_material_totals.sql",
+    "comp_element.sql",
+    "comp_zone.sql",
+    "comp_aperture.sql",
+    "comp_base_element.sql",
+    "edge_comp_base_unified.sql"
+  ],
+  "nodes": [
+    {
+      "table": "comp_base_element",
+      "id": [
+        "instance_name"
+      ],
+      "label": [
+        "instance_name"
+      ],
+      "model_id_col": "model_id"
+    }
+  ],
+  "edges": [
+    {
+      "edge_src": "edge_comp_base_unified",
+      "src_cat": "comp_base_element",
+      "src_col": "element_1_name",
+      "tgt_cat": "comp_base_element",
+      "tgt_col": "element_2_name",
+      "rel": "component_relationship",
+      "bidirectional": true
+    }
+  ]
+}

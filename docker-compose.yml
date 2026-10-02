@@ -1,0 +1,42 @@
+# Starts the PostgreSQL server this project expects. Requires a .env file
+# (copy .env.example). Usage:
+#
+#   docker compose up -d      # start
+#   docker compose logs -f db # watch
+#   docker compose down       # stop, keep data
+#   docker compose down -v    # stop and delete the database volume
+#
+services:
+  db:
+    image: postgres:16
+    container_name: beg-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-beg}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      POSTGRES_DB: ${POSTGRES_DB:-beg}
+    ports:
+      # Bound to loopback, so the database is not reachable from the network;
+      # the pipeline connects only from this machine.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - beg_pgdata:/var/lib/postgresql/data
+    shm_size: 1gb
+    command:
+      - postgres
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - work_mem=64MB
+      - -c
+      - maintenance_work_mem=512MB
+      - -c
+      - max_wal_size=4GB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-beg} -d ${POSTGRES_DB:-beg}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  beg_pgdata:

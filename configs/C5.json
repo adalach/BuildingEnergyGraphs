@@ -1,0 +1,33 @@
+{
+  "extends": "base/zone_hetero.json",
+  "id": "C5",
+  "prefix": "zone_hetero_external_weather",
+  "weather": "separate node",
+  "description": "Heterogeneous zone-level graph with a building node linked to all zones and a separate weather node influencing only externally exposed zones",
+  "sql_transforms": {
+    "add": [
+      "edge_zones_model_weather.sql",
+      "edge_zones_env_weather.sql"
+    ]
+  },
+  "nodes": {
+    "add": [
+      {
+        "table": "weather_city"
+      }
+    ]
+  },
+  "edges": {
+    "add": [
+      {
+        "edge_src": "edge_zones_env_weather",
+        "src_cat": "weather_city",
+        "src_col": "city_key",
+        "tgt_cat": "zones_zone",
+        "tgt_col": "zone_name",
+        "rel": "weather_for",
+        "bidirectional": false
+      }
+    ]
+  }
+}

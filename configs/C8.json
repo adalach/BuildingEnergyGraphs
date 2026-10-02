@@ -1,0 +1,7 @@
+{
+  "extends": "base/component_hetero.json",
+  "id": "C8",
+  "prefix": "component_hetero_no_weather",
+  "weather": "not included",
+  "description": "Heterogeneous component-level graph with building, zone, element, and aperture nodes, without weather information"
+}

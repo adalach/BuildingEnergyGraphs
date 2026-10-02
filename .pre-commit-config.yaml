@@ -1,0 +1,33 @@
+# Install once:  pip install pre-commit && pre-commit install
+#
+# Notebooks are committed *with* their outputs, so they can be read without being
+# run. The no-hardcoded-dsn hook below scans tracked files, stored outputs
+# included, for home directories and connection strings, and caps the embedded
+# image data a notebook may carry. See scripts/check_no_secrets.py.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+        args: ["--maxkb=2048"]
+        exclude: ^data/Energy\+\.schema\.epJSON$
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.6
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+
+  - repo: local
+    hooks:
+      - id: no-hardcoded-dsn
+        name: no hardcoded database credentials
+        entry: python scripts/check_no_secrets.py
+        language: system
+        pass_filenames: false
