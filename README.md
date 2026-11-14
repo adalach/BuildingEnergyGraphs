@@ -19,6 +19,11 @@ The model search is compared using validation MSE. For each graph configuration,
 lowest validation MSE is selected and its held-out metrics are reported in the selected-candidate
 table.
 
+[![Preview of the interactive Building Energy Graphs website](docs/assets/beg-web-preview.svg)](https://adalach.com/beg/)
+
+**[Explore Building Energy Graphs online →](https://adalach.com/beg/)** An interactive introduction
+to how EnergyPlus building models become graphs and how graph design affects energy prediction.
+
 ---
 
 ## The ten configurations

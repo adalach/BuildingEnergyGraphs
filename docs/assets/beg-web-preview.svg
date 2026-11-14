@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Building Energy Graphs interactive website</title>
+  <desc id="desc">An animated building-energy graph flowing from a building model to a neural-network prediction.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5f8fc"/>
+      <stop offset="1" stop-color="#e7f0fa"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#17365d" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="500" rx="24" fill="url(#background)"/>
+  <rect x="42" y="42" width="1116" height="416" rx="20" fill="#fff" filter="url(#shadow)"/>
+  <text x="92" y="112" fill="#143b67" font-family="Arial, Helvetica, sans-serif" font-size="35" font-weight="700">Building Energy Graphs</text>
+  <text x="92" y="151" fill="#536a83" font-family="Arial, Helvetica, sans-serif" font-size="20">Explore how building models become graphs for energy prediction</text>
+  <g transform="translate(122 224)" fill="none" stroke="#1c5d99" stroke-linejoin="round" stroke-width="8">
+    <path d="M10 138V48l66-36 66 36v90l-66 37z" fill="#e1effc"/>
+    <path d="M76 12v163M10 48l66 37 66-37M10 138l66-38 66 38"/>
+    <path d="M76 85l-36 20v42l36 20 36-20v-42z" fill="#fff" stroke-width="5"/>
+  </g>
+  <text x="125" y="432" fill="#143b67" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Building model</text>
+  <g stroke="#9bb7d3" stroke-width="3">
+    <path d="M330 274H467"/><path d="M737 274h130"/>
+  </g>
+  <g fill="#1c5d99">
+    <circle r="8"><animateMotion dur="2.8s" repeatCount="indefinite" path="M330,274 H467"/></circle>
+    <circle r="8"><animateMotion dur="2.8s" begin="1.4s" repeatCount="indefinite" path="M737,274 H867"/></circle>
+  </g>
+  <g transform="translate(494 205)" stroke="#1c5d99" stroke-width="4">
+    <path d="M40 20 120 0 206 44 180 134 78 146 0 90z" fill="#eef6fd"/>
+    <path d="M40 20 78 146M40 20l140 114M120 0 78 146M120 0 206 44M206 44 78 146M206 44 180 134M180 134 40 20"/>
+    <circle cx="40" cy="20" r="12" fill="#145da0"/><circle cx="120" cy="0" r="12" fill="#f0b429"/><circle cx="206" cy="44" r="12" fill="#2474c6"/><circle cx="180" cy="134" r="12" fill="#2474c6"/><circle cx="78" cy="146" r="12" fill="#145da0"/><circle cx="0" cy="90" r="12" fill="#2474c6"/>
+  </g>
+  <text x="548" y="432" fill="#143b67" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Energy graph</text>
+  <g transform="translate(900 198)">
+    <rect width="164" height="154" rx="18" fill="#143b67"/>
+    <path d="M34 112 66 72l26 22 38-51" fill="none" stroke="#f0b429" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"/>
+    <circle cx="34" cy="112" r="7" fill="#fff"/><circle cx="66" cy="72" r="7" fill="#fff"/><circle cx="92" cy="94" r="7" fill="#fff"/><circle cx="130" cy="43" r="7" fill="#fff"/>
+  </g>
+  <text x="892" y="432" fill="#143b67" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Energy prediction</text>
+  <text x="92" y="407" fill="#1c5d99" font-family="Arial, Helvetica, sans-serif" font-size="17">Interactive explainer at adalach.com/beg</text>
+</svg>
