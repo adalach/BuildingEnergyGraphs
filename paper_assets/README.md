@@ -29,8 +29,7 @@ Not generated here: `main-pipeline.png`, `bem-pipeline.png`, `beg-pipeline.png`,
 `beg-configurations.png` and `shading-proxy.png` are diagrams, and `city_source_layers.png` and
 `footprint-transformations.png` document the dataset's generation, which belongs to BEM4AI.
 
-`BEG_05_Results` also writes two figures the manuscript does not use,
-`all_runs_test_mse_{boxplot,scatter}_split_zones_components.png`, which show the spread of every run.
+`BEG_05_Results` also writes two validation-MSE figures that show the spread of every run.
 
 ## Tables
 
@@ -39,10 +38,9 @@ Written by `BEG_05_Results` to `outputs/paper/tables/`:
 | File | In the manuscript |
 |---|---|
 | `test_summary_best_runs.csv` | the selected-candidate table, C1\*–C10\* |
-| `test_summary_all_runs_config_model_key.csv` | the appendix summary over all stable runs |
+| `validation_summary_all_runs_config_model_key.csv` | the appendix summary over all stable runs |
 | `parameter_count_ranges.csv` | the appendix parameter ranges per model family |
 | `building_order_fidelity.csv` | the ranking of buildings by C5\* and C10\* |
-| `configuration_rank_stability.csv` | the configuration ranks before and after the test set |
 | `computational_cost_summary.csv` | the cost comparison in the text |
 
 The remaining tables — `configuration_ranking.csv`, `weather_variant_effect.csv`,

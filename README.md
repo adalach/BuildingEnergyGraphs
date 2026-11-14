@@ -15,6 +15,10 @@ The notebooks are committed with their outputs: the full run on all 13,260 BEM4A
 816 training runs behind the published tables. Every step's tables and figures can be read on GitHub
 without installing anything.
 
+The model search is compared using validation MSE. For each graph configuration, the run with the
+lowest validation MSE is selected and its held-out metrics are reported in the selected-candidate
+table.
+
 ---
 
 ## The ten configurations

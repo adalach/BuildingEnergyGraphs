@@ -85,8 +85,8 @@ def _draw_kind_box(ax, values, position, kind, *, width=0.62):
     return box
 
 
-def plot_all_runs_boxplot(runs: pd.DataFrame, *, metric: str = "test_mse_z"):
-    """Every run's test error, per configuration.
+def plot_all_runs_boxplot(runs: pd.DataFrame, *, metric: str = "best_val_mse_z"):
+    """Every run's validation MSE, per configuration.
 
     Shows how consistent each configuration is across the search, which the
     selected-run table cannot.
@@ -118,8 +118,8 @@ def plot_all_runs_boxplot(runs: pd.DataFrame, *, metric: str = "test_mse_z"):
     return fig
 
 
-def plot_all_runs_scatter(runs: pd.DataFrame, *, metric: str = "test_mse_z", seed: int = 0):
-    """The same runs as points, so the shape of each cluster is visible.
+def plot_all_runs_scatter(runs: pd.DataFrame, *, metric: str = "best_val_mse_z", seed: int = 0):
+    """The same validation results as points, so each cluster is visible.
 
     Shows whether a configuration's runs form one tight group or two, as when a
     model family diverges on some variants and not others.

@@ -177,29 +177,22 @@ def select_validation_best(runs: pd.DataFrame, *, by: str = "config_name") -> pd
     return best.sort_values("config_name", key=lambda s: s.map(sort_key)).reset_index(drop=True)
 
 
-def summarise_all_runs(runs: pd.DataFrame) -> pd.DataFrame:
-    """Mean and spread of the test metrics per configuration and model.
+def summarise_validation_runs(runs: pd.DataFrame) -> pd.DataFrame:
+    """Mean and spread of validation MSE per configuration and model.
 
-    The counterpart to the best-run table: it tells a configuration that wins
-    consistently from one that wins only on its best run.
+    This characterises the hyperparameter sweep without using held-out metrics.
     """
     frame = runs.copy()
-    for column in TEST_METRICS:
-        frame[column] = pd.to_numeric(frame[column], errors="coerce")
+    frame[SELECTION_METRIC] = pd.to_numeric(frame[SELECTION_METRIC], errors="coerce")
 
     summary = (
-        frame.dropna(subset=["test_mse_z", "test_rmse_raw"])
+        frame.dropna(subset=[SELECTION_METRIC])
         .groupby(["config_id", "config_name", "model_family", "model_key"], as_index=False)
         .agg(
             n_runs=("run_fingerprint", "nunique"),
-            mse_z_mean=("test_mse_z", "mean"),
-            mse_z_std=("test_mse_z", "std"),
-            mse_z_min=("test_mse_z", "min"),
-            rmse_raw_mean=("test_rmse_raw", "mean"),
-            rmse_raw_std=("test_rmse_raw", "std"),
-            r2_raw_mean=("test_r2_raw", "mean"),
-            r2_raw_std=("test_r2_raw", "std"),
-            r2_raw_max=("test_r2_raw", "max"),
+            validation_mse_z_mean=(SELECTION_METRIC, "mean"),
+            validation_mse_z_std=(SELECTION_METRIC, "std"),
+            validation_mse_z_min=(SELECTION_METRIC, "min"),
         )
     )
     return (
@@ -223,37 +216,37 @@ def summarise_best_runs(best: pd.DataFrame) -> pd.DataFrame:
 
 
 def configuration_ranking(runs: pd.DataFrame, best: pd.DataFrame) -> pd.DataFrame:
-    """How the configurations order, by the best run and by the typical run.
+    """How the configurations order, by selected and typical validation MSE.
 
-    The paper ranks on the selected run; the ranking by the median of the whole
-    search shows whether that order holds beyond each configuration's best run.
+    The ranking by the median of the whole search shows whether the selected-run
+    ordering holds beyond one hyperparameter variant.
     """
     frame = runs.copy()
-    frame["test_r2_raw"] = pd.to_numeric(frame["test_r2_raw"], errors="coerce")
+    frame[SELECTION_METRIC] = pd.to_numeric(frame[SELECTION_METRIC], errors="coerce")
 
     median = (
-        frame.groupby("config_name")["test_r2_raw"]
-        .agg(median_r2="median", worst_r2="min", n_runs="size")
+        frame.groupby("config_name")[SELECTION_METRIC]
+        .agg(median_validation_mse="median", worst_validation_mse="max", n_runs="size")
         .reset_index()
     )
     table = (
-        best[["config_id", "config_name", "model_key", "test_r2_raw"]]
-        .rename(columns={"test_r2_raw": "best_r2", "model_key": "best_model"})
+        best[["config_id", "config_name", "model_key", SELECTION_METRIC]]
+        .rename(columns={SELECTION_METRIC: "selected_validation_mse", "model_key": "selected_model"})
         .merge(median, on="config_name", how="inner")
     )
-    table["rank_by_best"] = table["best_r2"].rank(ascending=False).astype(int)
-    table["rank_by_median"] = table["median_r2"].rank(ascending=False).astype(int)
-    table["rank_shift"] = table["rank_by_median"] - table["rank_by_best"]
-    return table.sort_values("rank_by_best").reset_index(drop=True)
+    table["rank_by_selected_validation"] = table["selected_validation_mse"].rank(ascending=True).astype(int)
+    table["rank_by_median_validation"] = table["median_validation_mse"].rank(ascending=True).astype(int)
+    table["rank_shift"] = table["rank_by_median_validation"] - table["rank_by_selected_validation"]
+    return table.sort_values("rank_by_selected_validation").reset_index(drop=True)
 
 
 def rank_agreement(ranking: pd.DataFrame) -> float:
-    """Spearman correlation between the two rankings.
+    """Spearman correlation between selected and median validation rankings.
 
     The columns are already ranks, so their Pearson correlation is Spearman's
     coefficient.
     """
-    return float(ranking["rank_by_best"].corr(ranking["rank_by_median"]))
+    return float(ranking["rank_by_selected_validation"].corr(ranking["rank_by_median_validation"]))
 
 
 def weather_effect(best: pd.DataFrame) -> pd.DataFrame:
@@ -333,9 +326,6 @@ def load_predictions(runs_dir: Path, run_dir_name: str) -> pd.DataFrame:
 #: What counts as a stable run, defined once and used by every all-run summary.
 STABILITY_RULE = {
     "best_val_mse_z": ("<", 10.0),
-    "test_mse_z": ("<", 10.0),
-    "test_rmse_raw": ("<", 1000.0),
-    "test_r2_raw": (">", -10.0),
 }
 
 
@@ -353,55 +343,6 @@ def stable_runs(runs: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
         keep &= (values < threshold) if op == "<" else (values > threshold)
         keep &= values.notna()
     return runs.loc[keep].copy(), runs.loc[~keep].copy()
-
-
-def configuration_rank_stability(stable: pd.DataFrame, best: pd.DataFrame) -> pd.DataFrame:
-    """Configuration ranks before and after the test set is looked at.
-
-    Four orderings of the ten configurations: by the mean and by the median
-    validation error over every stable variant, by the selected run's validation
-    error, and by its test error. If selection were overfitting the validation
-    set, the last two would disagree.
-    """
-    aggregate = (
-        stable.groupby(["config_id", "config_name"], as_index=False)
-        .agg(
-            stable_runs=("run_fingerprint", "nunique"),
-            validation_mse_mean=("best_val_mse_z", "mean"),
-            validation_mse_median=("best_val_mse_z", "median"),
-            validation_mse_std=("best_val_mse_z", "std"),
-        )
-    )
-    selected = best[["config_name", "model_key", "best_val_mse_z", "test_mse_z", "test_r2_raw"]].rename(
-        columns={
-            "model_key": "selected_model",
-            "best_val_mse_z": "selected_validation_mse",
-            "test_mse_z": "selected_test_mse",
-            "test_r2_raw": "selected_test_r2",
-        }
-    )
-    table = aggregate.merge(selected, on="config_name", how="inner", validate="one_to_one")
-
-    for rank, metric in (
-        ("rank_validation_mean", "validation_mse_mean"),
-        ("rank_validation_median", "validation_mse_median"),
-        ("rank_selected_validation", "selected_validation_mse"),
-        ("rank_selected_test", "selected_test_mse"),
-    ):
-        table[rank] = table[metric].rank(method="min", ascending=True).astype(int)
-    table["moved_on_test"] = table["rank_selected_test"] != table["rank_selected_validation"]
-    return table.sort_values("config_name", key=lambda s: s.map(sort_key)).reset_index(drop=True)
-
-
-def rank_stability_summary(table: pd.DataFrame) -> pd.DataFrame:
-    """Kendall's tau between the orderings, against the selected test ranking."""
-    from scipy.stats import kendalltau
-
-    rows = []
-    for column in ("rank_validation_mean", "rank_validation_median", "rank_selected_validation"):
-        tau = kendalltau(table[column], table["rank_selected_test"]).statistic
-        rows.append({"ordering": column.replace("rank_", ""), "kendall_tau_vs_selected_test": float(tau)})
-    return pd.DataFrame(rows)
 
 
 #: Pairs of buildings closer than this in simulated EUI are also scored
