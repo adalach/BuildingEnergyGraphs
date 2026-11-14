@@ -89,9 +89,11 @@ def implementation_fingerprint() -> str:
     fingerprint, it means a plan skips work already done and never presents
     results from two different revisions of the code as comparable.
 
-    Every declared source must exist. A missing source is an error rather than
-    something to skip, so the fingerprint always represents the code that
-    produced a run.
+    Missing a source is an error rather than something to skip. This function
+    previously named the predecessor's files — ``GNNmodels.py``,
+    ``advei_training.py`` — and filtered on ``path.exists()``. After the refactor
+    renamed them none matched, so it silently hashed an empty source set and
+    every revision of the models fingerprinted identically.
     """
     package_root = Path(__file__).resolve().parent.parent
     source_paths = [package_root / relative for relative in IMPLEMENTATION_SOURCES]
