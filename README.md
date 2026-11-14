@@ -186,8 +186,8 @@ docs/           installation, data, database, limitations, training on another m
 
 ## Data
 
-The building energy models come from the **BEM4AI** dataset
-([10.14459/2026mp1856158](https://doi.org/10.14459/2026mp1856158), under review): 13,260 EnergyPlus
+The building energy models come from the published **BEM4AI** dataset
+([10.14459/2026mp1856158](https://doi.org/10.14459/2026mp1856158)): 13,260 EnergyPlus
 models across 713 European cities. BEM4AI provides download links for the EPW and DDY weather file
 of each city; the files themselves come from Climate.OneBuilding. [`docs/data.md`](docs/data.md) says
 where everything goes.
