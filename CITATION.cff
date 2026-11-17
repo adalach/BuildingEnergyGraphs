@@ -33,7 +33,6 @@ references:
     notes: "Manuscript under review. Update with the DOI on acceptance."
   - type: dataset
     title: "BEM4AI dataset"
-    doi: "10.14459/2026mp1856158"
     license: CC-BY-4.0
     authors:
       - given-names: Agata
@@ -42,4 +41,4 @@ references:
         family-names: Chen
       - given-names: Philipp
         family-names: Geyer
-    notes: "Source building energy model dataset: 13,260 EnergyPlus models across 713 European cities."
+    notes: "Source building energy model dataset: 13,260 EnergyPlus models across 713 European cities. Under review for publication and available from the corresponding author on request."

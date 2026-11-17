@@ -10,8 +10,9 @@
 
 ## The BEM4AI dataset
 
-The building energy models come from **BEM4AI**: 13,260 EnergyPlus models across 713 European
-cities, published on mediaTUM as [10.14459/2026mp1856158](https://doi.org/10.14459/2026mp1856158).
+The building energy models come from **BEM4AI**, a dataset of 13,260 EnergyPlus models across 713
+European cities. The dataset is under review for publication and is available from the corresponding
+author on request.
 
 The pipeline needs two parts of it, placed into `data/`:
 

@@ -191,11 +191,10 @@ docs/           installation, data, database, limitations, training on another m
 
 ## Data
 
-The building energy models come from the published **BEM4AI** dataset
-([10.14459/2026mp1856158](https://doi.org/10.14459/2026mp1856158)): 13,260 EnergyPlus
-models across 713 European cities. BEM4AI provides download links for the EPW and DDY weather file
-of each city; the files themselves come from Climate.OneBuilding. [`docs/data.md`](docs/data.md) says
-where everything goes.
+The **BEM4AI** dataset contains 13,260 EnergyPlus models across 713 European cities. The dataset
+is under review for publication and is available from the corresponding author on request. EPW
+and DDY weather files come from Climate.OneBuilding. [`docs/data.md`](docs/data.md) explains how
+to use the dataset once you have it.
 
 The database, the PyG graphs, the training-ready datasets and the training runs are not
 distributed. They are reproducible from the inputs by running the notebooks, and
@@ -222,8 +221,8 @@ This repository accompanies the paper:
 > **Building Energy Graphs: How Graph Representation Design Impacts GNN-Based Building Energy
 > Prediction.** *Under review — the DOI and full reference will be added on acceptance.*
 
-and consumes the [BEM4AI dataset](https://doi.org/10.14459/2026mp1856158). Machine-readable metadata
-for both are in `CITATION.cff`; please cite the software and the paper together.
+The software uses the BEM4AI dataset. Machine-readable citation metadata are in
+[`CITATION.cff`](CITATION.cff). Please cite the software and the paper together.
 
 ## License
 
